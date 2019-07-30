@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="score">
+            Your score:
+            <div id="player">0</div>
+            Comp score:
+            <div id="comp">0</div>
+        </div>
+        <div class="result">Best of Five.</div>
+        <div class="buttons">
+            <button>rock</button>
+            <button>paper</button>
+            <button>scissors</button>
+        </div>    
+    </div>
+    
+</body>
+<script>
+    let playerWinCount = 0;
+    let compCount = 0;
+    let buttons = document.querySelectorAll(".container button");
+    let result = document.querySelector(".result");
+    let player = document.querySelector("#player");
+    let comp = document.querySelector("#comp");
+    function computerPlay(){
+        let move=["rock","paper","scissors"];
+        let pick=Math.floor(Math.random()*3);
+        return move[pick];
+    }
+    function singleRound(e){
+        let computerSelection = computerPlay();
+        let playerSelectionSmall = e.target.textContent;
+        if(playerSelectionSmall==computerSelection){
+            result.textContent = "It's a tie!";
+            compCount--;
+        }
+        else if(playerSelectionSmall==="rock" && computerSelection ==="scissors" )
+        result.textContent = 'Rock beats scissors.You win.';
+        else if(playerSelectionSmall==="paper" && computerSelection==="rock")
+        result.textContent = 'Paper beats rock.You win.';
+        else if(playerSelectionSmall==="scissors"&& computerSelection==="paper")
+        result.textContent = 'Scissors beat paper.You win';
+        else
+        result.textContent = `You lose.${computerSelection} beats ${playerSelectionSmall}.`
+        if(result.textContent.indexOf("win") !== -1)
+            playerWinCount++;
+        else 
+            compCount++;
+        player.textContent = playerWinCount;
+        comp.textContent = compCount;
+        if(playerWinCount === 5 && playerWinCount>compCount){
+            result.textContent = "You Win!";
+            playerWinCount = 0;
+            compCount = 0;
+        }
+        else if(playerWinCount === 5 && playerWinCount<compCount){
+            result.textContent = "You Lose:(";
+        }
+
+    }
+
+
+    buttons.forEach(button => {
+        button.addEventListener("click",singleRound);
+    });
+</script>
+</html>
